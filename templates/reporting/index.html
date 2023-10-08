@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <main>
+    <section class="mb-3 text-center container-fluid bg-warning">
+      <div class="row py-3">
+
+          <h1 class="fw-light">
+            Отчет за текущую ({{ week }}-ю) неделю.
+          </h1>
+      </div>
+    </section>
+    <section class="mb-3 text-center container-fluid">
+        <div class="row py-3">
+            <h2 class="fw-light">
+              <a href="{% url 'production_report' year week %}">
+                Скачать
+              </a>
+            </h2>
+        </div>
+    </section>
+  </main>
+
+  
+{% endblock %}

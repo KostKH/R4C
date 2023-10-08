@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        {% block title %}
+          R4C: Результаты производства
+        {% endblock %}
+    </title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'reporting/bootstrap.min.css' %}">
+    <style>
+      .scrollarea {
+        overflow-y: auto;
+      }
+    </style>
+    <script src="{% static 'reporting/bootstrap.js' %}"></script>
+    <script src="{% static 'reporting/bootstrap.bundle.min.js' %}"></script>
+  </head>
+
+  <body>
+    {% block content %}
+
+    {% endblock %}
+    {% include 'footer.html' %}
+  </body>
+</html>
