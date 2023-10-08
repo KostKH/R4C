@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'customers',
     'orders',
     'robots',
+    'reporting',
 ]
 
 MIDDLEWARE = [
@@ -28,11 +29,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'R4C.urls'
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+INCLUDES = os.path.join(TEMPLATES_DIR, 'reporting/includes')
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR, INCLUDES],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
