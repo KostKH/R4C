@@ -1,7 +1,14 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = 'mztx@x_-=gfhc9xs@bm58m&@3pc7##opo14zob!(l2tus05+jo'
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    default='mztx@x_-=gfhc9xs@bm58m&@3pc7##opo14zob!(l2tus05+jo'
+)
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
@@ -12,10 +19,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'customers',
-    'orders',
-    'robots',
-    'reporting',
+    'robots.apps.RobotsConfig',
+    'customers.apps.CustomersConfig',
+    'orders.apps.OrdersConfig',
+    'reporting.apps.ReportingConfig',
 ]
 
 MIDDLEWARE = [
@@ -78,3 +85,20 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+ORDER_MODEL = 'orders.Order'
+ROBOT_MODEL = 'robots.Robot'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+
+RABBITMQ = {
+    'PROTOCOL': 'amqp',
+    'HOST': os.getenv('RABBITMQ_HOST', 'localhost'),
+    'PORT': os.getenv('RABBITMQ_PORT', 5672),
+    'USER': os.getenv('RABBITMQ_DEFAULT_USER', 'guest'),
+    'PASSWORD': os.getenv('RABBITMQ_DEFAULT_PASS', 'guest'),
+}
+CELERY_BROKER_URL = (f'{RABBITMQ["PROTOCOL"]}://{RABBITMQ["USER"]}:'
+                     f'{RABBITMQ["PASSWORD"]}@{RABBITMQ["HOST"]}:'
+                     f'{RABBITMQ["PORT"]}')
