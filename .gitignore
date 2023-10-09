@@ -161,4 +161,4 @@ cython_debug/
 
 # Other
 setup.cfg
-data/data.csv
+R4C/data/data.csv

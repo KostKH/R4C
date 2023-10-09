@@ -1,0 +1,48 @@
+version: '3.3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    hostname: rabbitmq
+    restart: always
+    volumes:
+      - rabbit_value:/var/lib/rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    env_file:
+      - ./.env
+    networks:
+      - r4c_network
+  
+  celery:
+    restart: always
+    image: kostkh/r4c_app:v1.0.0
+    command: celery -A R4C worker -l info
+    env_file:
+      - ./.env
+    depends_on:
+      - rabbitmq
+    networks:
+      - r4c_network
+
+  app:
+    image: kostkh/r4c_app:v1.0.0
+    restart: always
+    ports:
+      - 8000:8000
+    networks:
+      - r4c_network
+    volumes:
+      - static:/app/static/
+    depends_on:
+      - celery
+    env_file:
+      - ./.env
+
+volumes:
+  static:
+  rabbit_value:
+
+networks:
+  r4c_network:
